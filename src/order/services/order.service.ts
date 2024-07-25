@@ -19,6 +19,7 @@ export class OrderService {
       status: 'inProgress',
     };
 
+    //as i understand this is the place where must be database connection
     this.orders[ id ] = order;
 
     return order;
