@@ -1,6 +1,6 @@
-import { Controller, Get, Delete, Put, Body, Req, Post, UseGuards, HttpStatus, Param } from '@nestjs/common';
+import { Controller, Get, Delete, Put, Body, Req, Post, UseGuards, HttpStatus } from '@nestjs/common';
 
-//import { BasicAuthGuard, JwtAuthGuard } from '../auth';
+// import { BasicAuthGuard, JwtAuthGuard } from '../auth';
 import { OrderService } from '../order';
 import { AppRequest, getUserIdFromRequest } from '../shared';
 
@@ -14,26 +14,15 @@ export class CartController {
     private orderService: OrderService
   ) { }
 
-  @Get('all')
-  async findAll() {
-    const carts = await this.cartService.findAll();
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'OK',
-      data: { carts },
-    };
-  }
-
   // @UseGuards(JwtAuthGuard)
   // @UseGuards(BasicAuthGuard)
   @Get()
-  async findUserCart(@Req() req: AppRequest) {
-    const cart = await this.cartService.findOrCreateByUserId(getUserIdFromRequest(req));
+  findUserCart(@Req() req: AppRequest) {
+    const cart = this.cartService.findOrCreateByUserId(getUserIdFromRequest(req));
 
     return {
       statusCode: HttpStatus.OK,
       message: 'OK',
-      //@ts-ignore
       data: { cart, total: calculateCartTotal(cart) },
     }
   }
@@ -49,7 +38,6 @@ export class CartController {
       message: 'OK',
       data: {
         cart,
-        //@ts-ignore
         total: calculateCartTotal(cart),
       }
     }
@@ -74,7 +62,6 @@ export class CartController {
     const userId = getUserIdFromRequest(req);
     const cart = this.cartService.findByUserId(userId);
 
-    //@ts-ignore
     if (!(cart && cart.items.length)) {
       const statusCode = HttpStatus.BAD_REQUEST;
       req.statusCode = statusCode
@@ -85,9 +72,7 @@ export class CartController {
       }
     }
 
-    //@ts-ignore
     const { id: cartId, items } = cart;
-    //@ts-ignore
     const total = calculateCartTotal(cart);
     const order = this.orderService.create({
       ...body, // TODO: validate and pick only necessary data

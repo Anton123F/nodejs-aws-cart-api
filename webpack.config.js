@@ -8,7 +8,7 @@ module.exports = (options, webpack) => {
   ];
 
   // const entryPoint = './src/main.ts';
-  const entryPoint = './src/lambda.ts';
+  const entryPoint = './src/main.ts';
   const filename = path.basename(entryPoint, path.extname(entryPoint)) + '.js';
 
   return {

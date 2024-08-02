@@ -1,0 +1,19 @@
+podman images                      // all images
+podman ps                          //running containers
+podman ps -a                       //exclude stopped containers
+podman logs [container_id_or_name] // view container logs
+podman inspect [image_or_container_id] //inspect image or container (show only metadata)
+podman run [options] image_name [command] // run container
+podman stop [container_id_or_name]
+podman rm [container_id_or_name]
+podman rmi [image_id_or_name]
+podman stats                        //see resources used by container
+podman commit [container_id_or_name] [new_image_name] //create an image from container
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+podman build -t anton123f-cart-app-api -f Dockerfile
+podman run --rm -it image_name_or_id sh
+ls -l node_modules/.bin/rimraf // check permission
+chmod +x node_modules/.bin/rimraf // set executable permission
+podman run -it --rm -p 4000:4000 --name temp-container anton123f-cart-app-api node main.js
+podman run -it --rm -p 4000:4000 --name temp-container anton123f-cart-app-api sh
