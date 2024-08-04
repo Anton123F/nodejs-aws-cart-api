@@ -1,0 +1,38 @@
+CREATE TYPE cart_status AS ENUM ('OPEN', 'ORDERED');
+
+CREATE TABLE carts (
+    id UUID PRIMARY key default uuid_generate_v4(),
+    user_id UUID NOT NULL,
+    created_at DATE NOT NULL,
+    updated_at DATE NOT NULL,
+    status cart_status NOT NULL
+);
+
+CREATE TABLE cart_items (
+    id UUID PRIMARY key default uuid_generate_v4(),
+    cart_id UUID REFERENCES carts(id),
+    product_id UUID,
+    count INTEGER
+);
+
+drop table carts;
+drop table cart_items;
+
+INSERT INTO carts (id, user_id, created_at, updated_at, status) VALUES
+('123e4567-e89b-12d3-a456-426614174000', '123e4567-e89b-12d3-a456-426614174001', CURRENT_DATE, CURRENT_DATE, 'OPEN'),
+('123e4567-e89b-12d3-a456-426614174002', '123e4567-e89b-12d3-a456-426614174003', CURRENT_DATE, CURRENT_DATE, 'ORDERED'),
+('123e4567-e89b-12d3-a456-426614174004', '123e4567-e89b-12d3-a456-426614174005', CURRENT_DATE, CURRENT_DATE, 'OPEN'),
+('123e4567-e89b-12d3-a456-426614174006', '123e4567-e89b-12d3-a456-426614174007', CURRENT_DATE, CURRENT_DATE, 'ORDERED'),
+('123e4567-e89b-12d3-a456-426614174008', '123e4567-e89b-12d3-a456-426614174009', CURRENT_DATE, CURRENT_DATE, 'OPEN');
+
+INSERT INTO cart_items (cart_id, product_id, count) VALUES
+('123e4567-e89b-12d3-a456-426614174000', '123e4567-e89b-12d3-a456-426614174010', 1),
+('123e4567-e89b-12d3-a456-426614174002', '123e4567-e89b-12d3-a456-426614174011', 2),
+('123e4567-e89b-12d3-a456-426614174004', '123e4567-e89b-12d3-a456-426614174012', 3),
+('123e4567-e89b-12d3-a456-426614174006', '123e4567-e89b-12d3-a456-426614174013', 4),
+('123e4567-e89b-12d3-a456-426614174008', '123e4567-e89b-12d3-a456-426614174014', 5);
+
+create extension if not exists "uuid-ossp";
+
+select * from carts;
+select * from cart_items;
